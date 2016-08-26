@@ -27,3 +27,12 @@
 *.exe
 *.out
 *.app
+
+*.cpp~
+*.h~
+*.cd
+Debug/
+FinalWalk*
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
