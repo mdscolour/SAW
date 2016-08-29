@@ -28,8 +28,8 @@ public:
 	Point& operator*=(const double& c){ x *= c; y *= c; z *= c; return *this; }
 	Point& operator/=(const double& c){ x /= c; y /= c; z /= c; return *this; }
 
-	bool operator==(const Point& p){ return((abs(double(p.x - x))<1e-8 && abs(double(p.y - y))<1e-8 && abs(double(p.z - z))<1e-8)); }
-	//bool close(GPoint p, double preci = 1.e-5){ return((abs(p.x - x)<preci && abs(p.y - y)<preci && abs(p.z - z)<preci)); }
+	bool operator==(const Point& p){ return((fabs(double(p.x - x))<1e-8 && fabs(double(p.y - y))<1e-8 && fabs(double(p.z - z))<1e-8)); }
+	//bool close(GPoint p, double preci = 1.e-5){ return((fabs(p.x - x)<preci && fabs(p.y - y)<preci && fabs(p.z - z)<preci)); }
 	void print(FILE *fptr){ fprintf(fptr, "%lf %lf %lf \n", x, y, z); }
 
 	void point_assign(double xx, double yy, double zz) { x = xx; y = yy; z = zz; }
@@ -50,7 +50,7 @@ public:
 
 	Sphere operator+(const Point& p){ return Sphere(x + p.x, y + p.y, z + p.z, r, k); }
 	Sphere operator-(const Point& p){ return Sphere(x - p.x, y - p.y, z - p.z, r, k); }
-	bool operator==(const Sphere& p){ return((abs(double(p.x - x))<PRECISION && abs(double(p.y - y))<PRECISION && abs(double(p.z - z))<PRECISION && abs(double(p.r - r))<PRECISION && abs(double(p.k - k))<PRECISION)); }
+	bool operator==(const Sphere& p){ return((fabs(double(p.x - x))<PRECISION && fabs(double(p.y - y))<PRECISION && fabs(double(p.z - z))<PRECISION && fabs(double(p.r - r))<PRECISION && fabs(double(p.k - k))<PRECISION)); }
 	//Point operator-(Sphere p){ return Point(x - p.x, y - p.y, z - p.z); }
 	Point center()const {return Point(x,y,z);}
 
