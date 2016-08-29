@@ -95,7 +95,7 @@ void CStellman::line_initialize( int direction )
 void CStellman::scan( FILE *fptr )
 {
 	int i;
-	fscanf_s(fptr, "N=%d ind=%d ", &nsteps, &generation);
+	fscanf(fptr, "N=%d ind=%d ", &nsteps, &generation);
 	printf("Start SAW is: N=%d ind=%d \n", nsteps, generation);
 
 	steps = new Sphere[nsteps + 1];
@@ -584,7 +584,7 @@ void CKennedy::Writedown( const char* name )
 	simplify();
 	FILE *fptr;
 	char buffer[50]; // <- danger, only storage for 256 characters.
-	sprintf_s(buffer, "%s%d_%d", name,generation,nsteps);
+	sprintf(buffer, "%s%d_%d", name,generation,nsteps);
 
 	fptr = fopen(buffer, "w");
 	fprintf(fptr, "N=%d ind=%d \n", nsteps, generation);
@@ -602,7 +602,7 @@ void CKennedy::Record( const char* name )
 	simplify();
 	FILE *fptr;
 	char buffer[50]; // <- danger, only storage for 256 characters.
-	sprintf_s(buffer, "%s_%d", name,nsteps);
+	sprintf(buffer, "%s_%d", name,nsteps);
 	// record the "data"
 	double endnorm = steps[nsteps].center().norm();
 	fptr = fopen(buffer, "a");
