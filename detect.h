@@ -1,6 +1,8 @@
 // drand48 has 300 trillian period, not always good
 
+#define CLISBY
 #define KENNEDY
+#define STELLMAN
 
 #ifdef KENNEDY
 #include "kennedy.h"
@@ -11,6 +13,33 @@
 #ifdef CLISBY
 #include "clisby.h"
 #endif
+
+bool thesameSAW(const char* saw1, const char* saw2)
+{
+	FILE *fptr1, *fptr2;
+	int n1,n2,g1,g2;
+	Sphere sp1,sp2;
+	fptr1 = fopen(saw1, "r");
+	fptr2 = fopen(saw2, "r");
+	fscanf_s(fptr1, "N=%d ind=%d ", &n1, &g1);
+	fscanf_s(fptr2, "N=%d ind=%d ", &n2, &g2);
+	if (n1!=n2) {printf("not the same length\n");return false;}
+	for (int i = 0; i <= n1; i++) 
+	{
+		sp1.scan(fptr1);
+		sp2.scan(fptr2);
+		if (sp1 == sp2) {}
+		else
+		{
+			sp1.print(stdout);
+			sp2.print(stdout);
+			return false;
+		}
+	}
+	fclose(fptr1);
+	fclose(fptr2);
+	return true;
+}
 
 // random number generator
 double normalRandom(double mu = 0.0, double sigma = 1.0)
@@ -130,14 +159,96 @@ void detect_kennedy()
 #ifdef CLISBY
 void detect_clisby()
 {
+	CClisby walk;
+	int n = 10;
+	walk.ImportSAW("0",n);
+
+	// 	for(int i=0;i<walk.GetNSteps();i++)
+	// 	{
+	// 		printf("%.4lf \n",walk.GetStepi(i).distance(walk.GetStepi(i+1)));
+	// 	}
+
+	Matrix qtarr[4];
+	qtarr[0] = Matrix(1,0,0,0,-1,0,0,0,1);
+	qtarr[1] = Matrix(-1,0,0,0,1,0,0,0,1);
+	qtarr[2] = Matrix(1,0,0,0,-1,0,0,0,1);
+	double theta = M_PI/4;
+	qtarr[3] = Matrix(cos(theta),-sin(theta),0,sin(theta),cos(theta),0,0,0,1);
+
+	int ntarr[] = {8,9,0,9};
+	walk.Writedown("FinalWalk");
+	walk.Record("data");
+	for (int i=0;i<4;i++)
+	{
+		walk.Attempt_pivot(qtarr[i],ntarr[i]);
+		walk.IncreaseGeneration();
+		walk.Writedown("FinalWalk");
+		walk.Record("data");
+	}
 }
 #endif
+
+void detect_kenandstell()
+{
+	int n = 10000;
+	Matrix qt;
+	int nt;
+
+	CStellman swalk;
+	swalk.ImportSAW("0",n);
+	CKennedy kwalk;
+	kwalk.ImportSAW("0",n);
+
+	for(int i=1;i<100000;i++)
+	{
+		qt = Random_symmetry();
+		nt = Random_integer_uniform(0,n);
+		swalk.Attempt_pivot(qt,nt);
+		swalk.IncreaseGeneration();
+		
+		kwalk.Attempt_pivot(qt,nt);
+		kwalk.IncreaseGeneration();
+		if (i%1000 == 0)
+		{
+			swalk.Writedown("temp/stell");
+			kwalk.Writedown("temp/ken");
+
+			char buffer[50]; // <- danger, only storage for 256 characters.
+			sprintf_s(buffer, "%s%d", "temp/stell",i);
+			char buffer2[50]; // <- danger, only storage for 256 characters.
+			sprintf_s(buffer2, "%s%d", "temp/ken",i);
+			if (thesameSAW(buffer,buffer2)){printf("%d ",i);}
+			else printf("\n%d not the same +++++++++++++++++\n",i);
+		}
+	}
+}
 
 void run_detect()
 {
 	//detect_rand();
 	//detect_stellman();
-	detect_kennedy();
-	//detect_clisby();
+	//detect_kennedy();
+	//detect_clisby();  //not pass the below
+	detect_kenandstell();
+	//thesameSAW("temp/stell59","temp/ken59");
+
+// 	clock_t start, finish; 
+// 	int n = 10000;
+// 
+// 	start = clock();  
+// 	CClisby walk;
+// 	walk.ImportSAW("0",n);
+// 	for (int i=0;i<1000;i++)
+// 	{
+// 		walk.Attempt_pivot(Random_symmetry(),Random_integer_uniform(0,n));
+// 		walk.IncreaseGeneration();
+// 	}
+// 	for(int i=0;i<walk.GetNSteps();i++)
+// 	{
+// 		printf("%.4lf \n",walk.GetStepi(i).distance(walk.GetStepi(i+1)));
+// 	}
+// 	finish = clock(); 
+// 	printf( "%f seconds\n", (double)(finish - start) / CLOCKS_PER_SEC ); 
+
 	//check several step...to be done
 }

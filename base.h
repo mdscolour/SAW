@@ -1,6 +1,8 @@
 #pragma once
 #include "framework.h"
 
+#define PRECISION 1e-5
+
 class Point
 {
 public:
@@ -47,6 +49,7 @@ public:
 
 	Sphere operator+(const Point& p){ return Sphere(x + p.x, y + p.y, z + p.z, r, k); }
 	Sphere operator-(const Point& p){ return Sphere(x - p.x, y - p.y, z - p.z, r, k); }
+	bool operator==(const Sphere& p){ return((abs(p.x - x)<PRECISION && abs(p.y - y)<PRECISION && abs(p.z - z)<PRECISION && abs(p.r - r)<PRECISION && abs(p.k - k)<PRECISION)); }
 	//Point operator-(Sphere p){ return Point(x - p.x, y - p.y, z - p.z); }
 	Point center()const {return Point(x,y,z);}
 
