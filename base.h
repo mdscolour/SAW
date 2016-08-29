@@ -56,7 +56,7 @@ public:
 
 	void assign(double xx, double yy, double zz, double rr,double kk) { x = xx; y = yy; z = zz; r = rr; k = kk; }
 	void print(FILE *fptr){ fprintf(fptr, "%lf %lf %lf %lf %lf \n", x, y, z, r, k); }
-	void scan(FILE *fptr){ fscanf_s(fptr, "%lf %lf %lf %lf %lf \n", &x, &y, &z, &r, &k); }
+	void scan(FILE *fptr){ fscanf(fptr, "%lf %lf %lf %lf %lf \n", &x, &y, &z, &r, &k); }
 	double distance(const Sphere& s){return(sqrt((x-s.x)*(x-s.x) + (y-s.y)*(y-s.y) + (z-s.z)*(z-s.z)));}
 
 	//int WellSeparate(const Sphere& s){ double t = sqrt((x-s.x)*(x-s.x) + (y-s.y)*(y-s.y) + (z-s.z)*(z-s.z)); return((t > s.r+this->r) ? int(t+(1-s.r-this->r)) : 0); }

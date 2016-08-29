@@ -21,8 +21,8 @@ bool thesameSAW(const char* saw1, const char* saw2)
 	Sphere sp1,sp2;
 	fptr1 = fopen(saw1, "r");
 	fptr2 = fopen(saw2, "r");
-	fscanf_s(fptr1, "N=%d ind=%d ", &n1, &g1);
-	fscanf_s(fptr2, "N=%d ind=%d ", &n2, &g2);
+	fscanf(fptr1, "N=%d ind=%d ", &n1, &g1);
+	fscanf(fptr2, "N=%d ind=%d ", &n2, &g2);
 	if (n1!=n2) {printf("not the same length\n");return false;}
 	for (int i = 0; i <= n1; i++) 
 	{
@@ -214,9 +214,9 @@ void detect_kenandstell()
 			kwalk.Writedown("temp/ken");
 
 			char buffer[50]; // <- danger, only storage for 256 characters.
-			sprintf_s(buffer, "%s%d", "temp/stell",i);
+			sprintf(buffer, "%s%d", "temp/stell",i);
 			char buffer2[50]; // <- danger, only storage for 256 characters.
-			sprintf_s(buffer2, "%s%d", "temp/ken",i);
+			sprintf(buffer2, "%s%d", "temp/ken",i);
 			if (thesameSAW(buffer,buffer2)){printf("%d ",i);}
 			else printf("\n%d not the same +++++++++++++++++\n",i);
 		}
