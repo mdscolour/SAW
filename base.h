@@ -1,4 +1,5 @@
-#pragma once
+#ifndef BASE
+#define BASE
 #include "framework.h"
 
 #define PRECISION 1e-5
@@ -147,3 +148,5 @@ int factorial(int n){if(n==1|| n==0)return 1;else return n*factorial(n-1);}
 
 Point origin("zero");
 Matrix I("identity");
+
+#endif

@@ -1,6 +1,6 @@
 // drand48 has 300 trillian period, not always good
 
-#define CLISBY
+//#define CLISBY
 #define KENNEDY
 #define STELLMAN
 
