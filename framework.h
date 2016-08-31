@@ -26,7 +26,15 @@ using namespace std;
 #ifdef linux
 #include <sys/time.h>
 #define RNG_NAME drand48
+inline void SeedByTime()
+{
+	struct timeval tpstart;
+	gettimeofday(&tpstart, NULL);
+	srand48(tpstart.tv_usec);
+	//srand48(floor(mytime()));
+}
 #endif
+
 #ifdef _WIN32
 #include <time.h>
 inline double GetRand()
@@ -35,6 +43,10 @@ inline double GetRand()
 	return (rand()/(double)(RAND_MAX + 1));
 }
 #define RNG_NAME GetRand
+inline void SeedByTime()
+{
+	srand(unsigned int(time(NULL)));
+}
 #endif
 
 #define RADIUS 0.4

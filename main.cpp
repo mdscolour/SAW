@@ -22,15 +22,7 @@ $ ./start 1000 "0" 10 1000
 int main(int argc,char *argv[])
 {
 /**************  random seed  *******************************/
-#ifdef linux
-	struct timeval tpstart;
-	gettimeofday(&tpstart, NULL);
-	srand48(tpstart.tv_usec);
-	//srand48(floor(mytime()));
-#endif
-#ifdef _WIN32
-	srand(unsigned int(time(NULL)));
-#endif
+SeedByTime();
 /**************  main start here *******************************/
 	//run_detect();
 	CKennedy walk;
@@ -50,6 +42,7 @@ int main(int argc,char *argv[])
 	walk.ImportSAW(init_name,length);
 	for (int k=0;k<discard;k++)
 	{
+		SeedByTime();
 		walk.Attempt_pivot(Random_symmetry(),Random_integer_uniform(0,length));
 	}
 	//walk.IncreaseGeneration();	
@@ -57,6 +50,7 @@ int main(int argc,char *argv[])
 	{
 		for (int j=0;j<inner_loop;j++)
 		{
+			SeedByTime();
 			walk.Attempt_pivot(Random_symmetry(),Random_integer_uniform(0,length));
 		}
 		walk.IncreaseGeneration();
@@ -160,8 +154,8 @@ void CStellman::deallocate()
 void CStellman::ImportSAW( const char* name,int n/*=100*/ )
 {
 	nsteps = n;
-	//if (name[0] == '0') line_initialize(2);
-	if (name == "0") line_initialize(2);
+	if (name[0] == '0') line_initialize(2);
+	//if (name == "0") line_initialize(2);
 	else
 	{
 		FILE *fptr = fopen(name, "r");
@@ -542,8 +536,8 @@ void CKennedy::ImportSAW( const char* name,int n/*=100*/ )
 	igroup = new Matrix[max_npivot + 1];
 	shift = new Point[max_npivot + 1];
 	clean_pivot();
-	//if (name[0] == '0') line_initialize(2);
-	if (name == "0") line_initialize(2);
+	if (name[0] == '0') line_initialize(2);
+	//if (name == "0") line_initialize(2);
 	else
 	{
 		FILE *fptr = fopen(name, "r");
