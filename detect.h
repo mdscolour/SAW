@@ -1,6 +1,7 @@
 // drand48 has 300 trillian period, not always good
+#pragma once
 
-//#define CLISBY
+#define CLISBY
 #define KENNEDY
 #define STELLMAN
 
@@ -188,6 +189,8 @@ void detect_clisby()
 }
 #endif
 
+#ifdef KENNEDY
+#ifdef STELLMAN
 void detect_kenandstell()
 {
 	int n = 10000;
@@ -222,6 +225,8 @@ void detect_kenandstell()
 		}
 	}
 }
+#endif
+#endif
 
 void run_detect()
 {
@@ -229,26 +234,27 @@ void run_detect()
 	//detect_stellman();
 	//detect_kennedy();
 	//detect_clisby();  //not pass the below
-	detect_kenandstell();
+	//detect_kenandstell();
+
 	//thesameSAW("temp/stell59","temp/ken59");
 
-// 	clock_t start, finish; 
-// 	int n = 10000;
-// 
-// 	start = clock();  
-// 	CClisby walk;
-// 	walk.ImportSAW("0",n);
-// 	for (int i=0;i<1000;i++)
-// 	{
-// 		walk.Attempt_pivot(Random_symmetry(),Random_integer_uniform(0,n));
-// 		walk.IncreaseGeneration();
-// 	}
-// 	for(int i=0;i<walk.GetNSteps();i++)
-// 	{
-// 		printf("%.4lf \n",walk.GetStepi(i).distance(walk.GetStepi(i+1)));
-// 	}
-// 	finish = clock(); 
-// 	printf( "%f seconds\n", (double)(finish - start) / CLOCKS_PER_SEC ); 
+	clock_t start, finish; 
+	int n = 1024-1;
 
-	//check several step...to be done
+	start = clock();  
+	CClisby walk;
+	walk.ImportSAW("0",n);
+	for (int i=0;i<1000;i++)
+	{
+		walk.Attempt_pivot(Random_symmetry(),Random_integer_uniform(0,n));
+		walk.IncreaseGeneration();
+	}
+	for(int i=0;i<walk.GetNSteps();i++)
+	{
+		double t = walk.GetStepi(i).distance(walk.GetStepi(i+1));
+		if(fabs(t-1)>1e-5) 
+			printf("%.4lf \n",t);
+	}
+	finish = clock(); 
+	printf( "%f seconds\n", (double)(finish - start) / CLOCKS_PER_SEC ); 
 }

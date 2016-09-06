@@ -1,3 +1,4 @@
+#pragma once
 #include "base.h"
 class Box
 {
@@ -442,6 +443,7 @@ public:
 			root = this->scan(fptr);
 			fclose(fptr);
 		}
+		//Shuffle_down(root);
 	}
 
 	bool Attempt_pivot(Matrix qt,int nt)

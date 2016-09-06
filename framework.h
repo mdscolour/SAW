@@ -3,8 +3,7 @@ Global definition everywhere, mainly macro and library
 and will:
 // Define "RNG_NAME" for random number, in linux using drand48(), in windows using rand(),
 **************************************************************************/
-#ifndef GLOBAL
-#define GLOBAL
+#pragma once
 
 
 #define M_PI       3.14159265358979323846
@@ -51,5 +50,3 @@ inline void SeedByTime()
 
 #define RADIUS 0.4
 #define RIGID 1
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef STELLMANN
-#define STELLMANN
+#pragma once
 
 #include "base.h"
 
@@ -39,5 +38,3 @@ public:
 
 	void Record(const char* name);
 };
-
-#endif

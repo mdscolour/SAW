@@ -15,6 +15,7 @@ $ ./start 1000 "0" 10 1000
 **************************************************************************/
 #include "stellman.h"
 #include "kennedy.h"
+#include "detect.h"
 
 
 ////////   ./start length 0or"FinalWalk"(name) discarded outerloop innerloop (in MCSs)
@@ -24,39 +25,40 @@ int main(int argc,char *argv[])
 /**************  random seed  *******************************/
 SeedByTime();
 /**************  main start here *******************************/
-	//run_detect();
-	CKennedy walk;
-	int length=100;
-	const char* init_name="0";
-	int inner_loop = 1000;
-	int outer_loop = 2;
-	int discard = 100;
+	run_detect();
 
-	if(argc>=2) length=atoi(argv[1]);
-	if(argc>=3) init_name=argv[2];
-
-	if(argc>=4) discard=atoi(argv[3]);
-	if(argc>=5) outer_loop=atoi(argv[4]); // the forth is the outer loop and fifth is the inner
-	if(argc>=6) inner_loop=atoi(argv[5]);
-
-	walk.ImportSAW(init_name,length);
-	for (int k=0;k<discard;k++)
-	{
-		SeedByTime();
-		walk.Attempt_pivot(Random_symmetry(),Random_integer_uniform(0,length));
-	}
-	//walk.IncreaseGeneration();	
-	for (int i=0;i<outer_loop;i++)
-	{
-		for (int j=0;j<inner_loop;j++)
-		{
-			SeedByTime();
-			walk.Attempt_pivot(Random_symmetry(),Random_integer_uniform(0,length));
-		}
-		walk.IncreaseGeneration();
-		//walk.Writedown("FinalWalk");
-		walk.Record("data");
- 	}
+// 	CKennedy walk;
+// 	int length=100;
+// 	const char* init_name="0";
+// 	int inner_loop = 1000;
+// 	int outer_loop = 2;
+// 	int discard = 100;
+// 
+// 	if(argc>=2) length=atoi(argv[1]);
+// 	if(argc>=3) init_name=argv[2];
+// 
+// 	if(argc>=4) discard=atoi(argv[3]);
+// 	if(argc>=5) outer_loop=atoi(argv[4]); // the forth is the outer loop and fifth is the inner
+// 	if(argc>=6) inner_loop=atoi(argv[5]);
+// 
+// 	walk.ImportSAW(init_name,length);
+// 	for (int k=0;k<discard;k++)
+// 	{
+// 		SeedByTime();
+// 		walk.Attempt_pivot(Random_symmetry(),Random_integer_uniform(0,length));
+// 	}
+// 	//walk.IncreaseGeneration();	
+// 	for (int i=0;i<outer_loop;i++)
+// 	{
+// 		for (int j=0;j<inner_loop;j++)
+// 		{
+// 			SeedByTime();
+// 			walk.Attempt_pivot(Random_symmetry(),Random_integer_uniform(0,length));
+// 		}
+// 		walk.IncreaseGeneration();
+// 		//walk.Writedown("FinalWalk");
+// 		walk.Record("data");
+//  	}
 
 /**************  main end here *******************************/
 #ifdef _WIN32
